@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 
 from .models import Student
@@ -48,6 +48,14 @@ def student_detail(request, id):
         'student': student
     }
     return render(request, "fscohort/student_detail.html", context)
+
+def student_delete(request, id):
+    # student = get_object_or_404(Student, id=id)
+    student = Student.objects.get(id=id)
+    if request.method == "POST":
+        student.delete()
+        return redirect("list")
+    return render(request, "fscohort/student_delete.html")
 
 # def about_view(request):
 #     return HttpResponse("Hi ,this is fscohort about page.")
