@@ -6,6 +6,8 @@ def home_view(request):
     # print(request.COOKIES)
     # print(request.user)
     # print(request.path)
+    # return HttpResponse("Hi, this is fscohort Home page.")
+    
     my_context = {
         "title": "clarusway",
         "dict_1": {"djang": "best framework"},
