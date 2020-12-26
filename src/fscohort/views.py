@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from fscohort.forms import StudentForm
+from .models import Student
+
+from .forms import StudentForm
+
 
 
 def home_view(request):
@@ -10,15 +13,32 @@ def home_view(request):
     # print(request.user)
     # print(request.path)
     # return HttpResponse("Hi, this is fscohort Home page.")
-    form = StudentForm()
-    my_context = {
-        "title": "clarusway",
-        "dict_1": {"djang": "best framework"},
-        "my_list": [2, 3, 4, 5],
-        "form": form
+    # form = StudentForm()
+    # my_context = {
+    #     "title": "clarusway",
+    #     "dict_1": {"djang": "best framework"},
+    #     "my_list": [2, 3, 4, 5],
+    #     "form": form
+    # }
+
+    return render(request, "fscohort/home.html")
+
+def student_list(request):
+    students = Student.objects.all()
+    context = {
+        "students": students
     }
+    return render(request, "fscohort/student_list.html", context)
 
-    return render(request, "fscohort/home.html", my_context)
+def student_add(request):
+    form = StudentForm()
+    if request.method == "POST":
+        print(request.POST)
+        form = StudentForm(request.POST)
+    context = {
+        'form': form
+    }
+    return render(request, "fscohort/student_add.html", context)
 
-def about_view(request):
-    return HttpResponse("Hi ,this is fscohort about page.")
+# def about_view(request):
+#     return HttpResponse("Hi ,this is fscohort about page.")
