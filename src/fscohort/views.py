@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import Student
-
 from .forms import StudentForm
 
 
@@ -35,10 +34,20 @@ def student_add(request):
     if request.method == "POST":
         print(request.POST)
         form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+
     context = {
         'form': form
     }
     return render(request, "fscohort/student_add.html", context)
+
+def student_detail(request, id):
+    student = Student.objects.get(id=id)
+    context = {
+        'student': student
+    }
+    return render(request, "fscohort/student_detail.html", context)
 
 # def about_view(request):
 #     return HttpResponse("Hi ,this is fscohort about page.")
